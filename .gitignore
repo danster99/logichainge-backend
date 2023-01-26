@@ -111,3 +111,4 @@ venv
 .mypy_cache/
 
 .idea/*
+startScript

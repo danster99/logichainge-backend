@@ -24,13 +24,16 @@ class TransportFileBase(BaseModel):
 	date_deviation: Optional[bool]
 	urgency: Optional[bool]
 	late_booking: Optional[bool]
- 
 	cost_code: str
- 
 	client_id: int
 	contact_id: int
 	department_id: int
 	employee_id: int
+	reported: Optional[bool]
+	call_before_planning: Optional[bool]
+	incoterms: Optional[str]
+	certainty: Optional[int]
+	
 	
 	
 	class Config:
@@ -46,6 +49,4 @@ class TransportFileOut(TransportFileBase):
 	contact: schemas.ContactOut
 	department: schemas.DepartmentOut
 	employee: schemas.EmployeeOut
-	first_activity: schemas.ActivityOut
-	last_activity: schemas.ActivityOut
 	created_at: datetime.datetime

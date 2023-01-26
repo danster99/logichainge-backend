@@ -33,6 +33,10 @@ class TransportFile(Base):
     
     employee_id = Column(Integer, ForeignKey('employee.id'))
     employee = orm.relationship('Employee')
+    reported = Column(Boolean, nullable=True, server_default="False", default=False)
+    call_before_planning = Column(Boolean, nullable=True, server_default="False", default=False)
+    incoterms = Column(String, nullable=True)
+    certainty = Column(Integer, nullable=True)
     
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 

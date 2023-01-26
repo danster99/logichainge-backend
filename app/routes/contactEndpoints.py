@@ -100,6 +100,6 @@ def delete_contact(*, db: Session = Depends(get_db), id: int, ):
     if not db_contact:
         raise not_found_exception(id)
 
-    contactService.delete(db=db, id=id)
+    contactService.delete(db=db, id=id).cascade()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

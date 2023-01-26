@@ -44,9 +44,11 @@ def get_all_clients(db: Session = Depends(get_db)):
     Get all clients as LIST
     """
 
-    result = {"clients": clientService.get_multiple(db=db)}
+    result = clientService.get_multiple(db=db)
     if not result:
         raise not_found_exception(id)
+    return result
+
 
 
 @router.get("/{id}", response_model=schemas.ClientOut)

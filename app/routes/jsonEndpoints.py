@@ -30,11 +30,11 @@ def create_json(json_data: schemas.JsonBase , db: Session = Depends(get_db), ):
     """
     populate database with info from json
     """
-    jsonService.populate_with_data_from_json(db=db, json_data=json_data)
+    json = jsonService.populate_with_data_from_json(db=db, json_data=json_data)
     # try:
     #     jsonService.populate_with_data_from_json(db = db)
     # except (exc.IntegrityError) as e:
     #     print(e.orig)
     #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
 
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    return json

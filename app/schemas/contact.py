@@ -15,9 +15,9 @@ class ContactBase(BaseModel):
 	name: str
 	surname_prefix: Optional[str]
 	surname: str
-	phone: str
-	mobile: str
-	email: EmailStr
+	phone: List[str]
+	mobile: List[str]
+	email: List[EmailStr]
 	
 	class Config:
 		orm_mode = True
