@@ -1,5 +1,7 @@
 from typing import Any
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
+from sqlalchemy import update
 from app import models, schemas
 from app.schemas.transportFile import TransportFileBase
 from app.services import contactService, clientService, employeeService, \
@@ -142,16 +144,20 @@ def update_transport_file(db: Session, transport_file_update: TransportFileBase,
     """
     Update only basic transport_file fields
     """
-    tr_file_query = db.query(models.TransportFile).filter(models.TransportFile.id == id)
-
-    tr_file_query.update(transport_file_update.dict(
+    tr_file_query = {}
+    stmt = (
+        update(models.TransportFile)
+        .where(models.TransportFile.id == id)
+        .values(transport_file_update.dict(
         exclude={
             "client", "contact", "department",
             "employee", "activities"
         }))
-    db.commit()
+    )
+    db.execute(stmt)
+    tr_file_query = db.query(models.TransportFile).filter(models.TransportFile.id == id).first()
 
-    return tr_file_query.first()
+    return tr_file_query
 
 
 def delete_transport_file(db: Session, id: int):
