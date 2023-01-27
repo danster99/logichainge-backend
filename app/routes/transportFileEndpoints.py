@@ -50,7 +50,6 @@ def get_all_transport_files_by_status(status: str, db: Session = Depends(get_db)
     Get all transport_files by their status (tr_file_status)
     """
 
-    print(status)
     all_files_by_status = transportFileService.get_all_transport_file_by_status(db, status)
     return all_files_by_status
 

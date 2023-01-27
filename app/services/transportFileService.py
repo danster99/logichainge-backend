@@ -155,6 +155,7 @@ def update_transport_file(db: Session, transport_file_update: TransportFileBase,
         }))
     )
     db.execute(stmt)
+    db.commit()
     tr_file_query = db.query(models.TransportFile).filter(models.TransportFile.id == id).first()
 
     return tr_file_query

@@ -69,20 +69,9 @@ def update_activity(db: Session, activity_update: ActivityBase, id: int) -> Any:
 	"""
 	Update an activity item in the db.
 	"""
-	activity_query = db.query(models.Activity).filter(models.Activity.activity_reference == id)
+	activity_query = db.query(models.Activity).filter(models.Activity.id == id)
 	
 	activity_query.update(activity_update.dict())
-	db.commit()
-	
-	return activity_query.first()
-
-
-def update_activity_basic_fields(db: Session, activity_update: ActivityBase, id: int):
-	"""
-	Update an activity item in the db from parent transport_file, but exlucding some fields.
-	"""
-	activity_query = db.query(models.Activity).filter(models.Activity.activity_reference == id)
-	activity_query.update(activity_update.dict(exclude={"activity_reference", "address", "goods"}))
 	db.commit()
 	
 	return activity_query.first()
