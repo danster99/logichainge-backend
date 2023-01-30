@@ -17,7 +17,7 @@ class ContactBase(BaseModel):
 	surname: str
 	phone: List[str]
 	mobile: List[str]
-	email: List[EmailStr]
+	email: List[str]
 	
 	class Config:
 		orm_mode = True
