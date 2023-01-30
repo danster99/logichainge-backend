@@ -93,7 +93,8 @@ def populate_with_data_from_json(
 		"date_deviation":json["date_deviation"], \
 		"urgency":json["urgency"], \
 		"late_booking":json["late_booking"], \
-		"cost_code":json["cost_code"]
+		"cost_code":json["cost_code"], \
+		"reference":json["reference"]
     })
  
 	db_transport_file = models.TransportFile(**transport_file)

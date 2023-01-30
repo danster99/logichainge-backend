@@ -4,5 +4,4 @@ from .clientService import clientService
 from .contactService import contactService
 from .employeeService import employeeService
 from .departmentService import departmentService
-from .imageService import imageService
 from .attachemntService import attachmentService

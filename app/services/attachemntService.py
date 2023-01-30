@@ -6,7 +6,7 @@ from app import models, schemas, services
 
 
 class AttachmentService(
-	DefaultService[models.Attachment, schemas.AttachmentIn, schemas.AttachmentIn],
+	DefaultService[models.Attachment, schemas.AttachmentBase, schemas.AttachmentBase],
 ):
 	"""
 	Attachment service implementing Default_service and its CRUD methods
@@ -15,7 +15,7 @@ class AttachmentService(
 	def method_for_sanity_check(self):
 		return "returning from child attachment service"
 	
-	def create(self, db: Session, *, obj_in: schemas.AttachmentIn) -> schemas.AttachmentOut:
+	def create(self, db: Session, *, obj_in: schemas.AttachmentBase) -> schemas.AttachmentOut:
 		"""
 		Overriding create methods from Default_service
 		"""

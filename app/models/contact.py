@@ -13,7 +13,7 @@ class Contact(Base):
 	surname = Column(String, nullable=False)
 	phone = Column(String, nullable=True)
 	mobile = Column(String, nullable=True)
-	email = Column(String, nullable=False)
+	email = Column(String, nullable=True)
 	created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	# transport_file_id = Column(Integer, ForeignKey('transport_file.id'))
 

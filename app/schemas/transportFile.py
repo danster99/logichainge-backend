@@ -33,6 +33,7 @@ class TransportFileBase(BaseModel):
 	call_before_planning: Optional[bool]
 	incoterms: Optional[str]
 	certainty: Optional[int]
+	reference: Optional[str]
 	
 	
 	

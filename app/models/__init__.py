@@ -7,4 +7,3 @@ from .contact import Contact
 from .department import Department
 from .employee import Employee
 from .attachment import Attachment
-from .image import Image
