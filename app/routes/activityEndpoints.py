@@ -24,6 +24,16 @@ def not_found_exception(id):
         detail=f"Activity with id= {id} not found"
     )
 
+def no_goods_found_exception(id):
+    """
+    Not founds with specific ID exception
+    """
+
+    return HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"No goods found for activity with id= {id}"
+    )
+
 
 @router.get("/", response_model=List[schemas.ActivityOut])
 def get_all_activities(db: Session = Depends(get_db)):
@@ -54,7 +64,7 @@ def get_activity(id: int, db: Session = Depends(get_db), ):
 
     db_activity = goodsService.get_goods_for_activity(db, id)
     if not db_activity:
-        raise not_found_exception(id)
+        raise no_goods_found_exception(id)
     return db_activity
 
 
