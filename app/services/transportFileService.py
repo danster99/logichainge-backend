@@ -160,6 +160,21 @@ def update_transport_file(db: Session, transport_file_update: TransportFileBase,
 
     return tr_file_query
 
+def mark_transport_file_as_reported(db: Session, id: int):
+    """
+    Mark the transport file as reported by user as incorrect or incomplete
+    """
+    tr_file_query = {}
+    stmt = (
+        update(models.TransportFile)
+        .where(models.TransportFile.id == id)
+        .values({"reported" : True})
+    )
+    db.execute(stmt)
+    db.commit()
+
+    return True
+
 
 def delete_transport_file(db: Session, id: int):
     """

@@ -141,6 +141,27 @@ def update_transport_file(*,
 
     return db_transport_file_updated
 
+@router.post("/{id}/report", status_code=status.HTTP_204_NO_CONTENT)
+def update_transport_file(*,
+                          id: int,
+                          db: Session = Depends(get_db),
+                          ) -> Any:
+    """
+    Report a specific transport_file as incorrect or incomplete
+    """
+    db_transport_file = transportFileService.get_transport_file(db, id)
+
+    if not db_transport_file:
+        raise not_found_exception(id)
+
+    try:
+        transportFileService.mark_transport_file_as_reported(db, id)
+    except (exc.IntegrityError) as e:
+        print(e.orig)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_transport_file(*, db: Session = Depends(get_db), id: int, ):
