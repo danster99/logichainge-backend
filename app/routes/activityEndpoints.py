@@ -46,7 +46,7 @@ def get_activity(id: int, db: Session = Depends(get_db), ):
         raise not_found_exception(id)
     return db_activity
 
-@router.get("/{id}/goods", response_model=schemas.GoodsOut)
+@router.get("/{id}/goods", response_model=List[schemas.GoodsOut])
 def get_activity(id: int, db: Session = Depends(get_db), ):
     """
     Get al the goods for an activity by its ID

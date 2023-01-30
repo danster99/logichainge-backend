@@ -22,7 +22,7 @@ def get_goods_for_activity(db: Session, activity_id: int):
 	"""
 	Get a goods item by ID from the db.
 	"""
-	return db.query(models.Goods).filter(models.Goods.activity_id == activity_id).first()
+	return db.query(models.Goods).filter(models.Goods.activity_id == activity_id).all()
 
 
 def save_goods(
