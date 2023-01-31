@@ -6,7 +6,7 @@ from app import models, schemas
 from app.schemas.transportFile import TransportFileBase
 from app.services import contactService, clientService, employeeService, \
     departmentService, activityService, \
-    goodsService, addressService, attachmentService
+    goodsService, addressService
 
 
 def get_all_transport_file(db: Session):

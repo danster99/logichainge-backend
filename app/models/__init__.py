@@ -6,4 +6,3 @@ from .client import Client
 from .contact import Contact
 from .department import Department
 from .employee import Employee
-from .attachment import Attachment
