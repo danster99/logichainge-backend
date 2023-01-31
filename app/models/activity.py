@@ -1,6 +1,6 @@
 from app.database.database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP, text, orm
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 
 class Activity(Base):
@@ -9,6 +9,7 @@ class Activity(Base):
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     activity_reference = Column(String, nullable=False)
     transport_file_id = Column(Integer, ForeignKey('transport_file.id'))
+    transport_file = relationship('Transport_file', backref = backref('Activity', cascade = "all, delete-orphan"))
     sequence_id = Column(Integer, nullable=True)
     activity_type = Column(String, nullable=False)  # Can be converted to ENUM
     address_id = Column(Integer, ForeignKey('address.id'))
