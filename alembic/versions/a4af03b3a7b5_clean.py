@@ -1,8 +1,8 @@
-"""made
+"""clean
 
-Revision ID: 9245c7557f77
+Revision ID: a4af03b3a7b5
 Revises: 
-Create Date: 2023-01-31 12:45:46.881495
+Create Date: 2023-01-31 17:13:25.852064
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9245c7557f77'
+revision = 'a4af03b3a7b5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,6 +50,7 @@ def upgrade():
     sa.Column('mobile', sa.ARRAY(sa.String()), nullable=True),
     sa.Column('email', sa.ARRAY(sa.String()), nullable=True),
     sa.Column('created_at', sa.TIMESTAMP(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('department',
@@ -57,6 +58,7 @@ def upgrade():
     sa.Column('client_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('created_at', sa.TIMESTAMP(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('employee',
@@ -64,6 +66,7 @@ def upgrade():
     sa.Column('client_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('created_at', sa.TIMESTAMP(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('transport_file',
