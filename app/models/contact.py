@@ -1,5 +1,5 @@
 from app.database.database import Base
-from sqlalchemy import Column, Integer, String, TIMESTAMP, text
+from sqlalchemy import Column, Integer, String, TIMESTAMP, text, ARRAY
 
 
 class Contact(Base):
@@ -11,9 +11,9 @@ class Contact(Base):
 	name = Column(String, nullable=False)
 	surname_prefix = Column(String, nullable=True)
 	surname = Column(String, nullable=False)
-	phone = Column(String, nullable=True)
-	mobile = Column(String, nullable=True)
-	email = Column(String, nullable=True)
+	phone = Column(ARRAY(String), nullable=True)
+	mobile = Column(ARRAY(String), nullable=True)
+	email = Column(ARRAY(String), nullable=True)
 	created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	# transport_file_id = Column(Integer, ForeignKey('transport_file.id'))
 

@@ -1,12 +1,11 @@
 from app.database.database import Base
-from sqlalchemy import Column, Integer, String, Boolean, orm, ForeignKey, TIMESTAMP, text
+from sqlalchemy import Column, Integer, String, Boolean, orm, ForeignKey, TIMESTAMP, text, ARRAY
 
 
 class TransportFile(Base):
     __tablename__ = "transport_file"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    activity = orm.relationship("Activity", cascade="all, delete-orphan")
     tr_file_status = Column(String, nullable=True, server_default="pending")  # Can be converted to ENUM
     display_number = Column(String, nullable=True)
     invoice_reference = Column(String, nullable=True)
@@ -40,7 +39,7 @@ class TransportFile(Base):
     certainty = Column(Integer, nullable=True)
     
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    reference = Column(String, nullable=True) #list of urls
+    reference = Column(ARRAY(String), nullable=True) #list of urls
 
 
     
