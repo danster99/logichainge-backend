@@ -40,7 +40,7 @@ class TransportFile(Base):
     certainty = Column(Integer, nullable=True)
     
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    reference = Column(String, nullable=True)
+    reference = Column(String, nullable=True) #list of urls
 
 
     
