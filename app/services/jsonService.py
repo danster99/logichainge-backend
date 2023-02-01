@@ -184,6 +184,33 @@ def populate_with_data_from_json(
 				db.add(db_good)
 				db.commit()
 				db.refresh(db_good)
-  
+	
+	if len(activities) == 2:
+		first_activity = db.query(models.Activity).filter(models.Activity.transport_file_id == db_transport_file.id).order_by(models.Activity.sequence_id.asc()).first()
+		for g in goods:
+				good = {}
+				if g["activity_sequence_id"] == None:
+					good.update({
+						"activity_id":first_activity.id,\
+						"unit_type":g["unit_type"],\
+						"stackable":g["stackable"],\
+						"quantity":g["quantity"],\
+						"description":g["description"],\
+						"loading_meters":g["loading_meters"],\
+						"net_weight":g["net_weight"],\
+						"gross_weight":g["gross_weight"],\
+						"dangerous_goods":g["dangerous_goods"],\
+						"dg_class":g["dg_class"],\
+						"dg_product_group":g["dg_product_group"],\
+						"dg_un_code":g["dg_un_code"],\
+						"dg_technical_name":g["dg_technical_name"],\
+						"size":g["size"],\
+						"volume_cbm":g["volume_cbm"]
+					})
+					db_good = models.Goods(**good)
+					db.add(db_good)
+					db.commit()
+					db.refresh(db_good)
+	
 	return transport_file
 
