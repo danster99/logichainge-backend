@@ -112,3 +112,6 @@ venv
 
 .idea/*
 startScript
+log.html
+output.xml
+report.html
