@@ -3,6 +3,7 @@ employee,
 department,
 contact,
 client,
+address,
 goods,
 activity ,
 transport_file

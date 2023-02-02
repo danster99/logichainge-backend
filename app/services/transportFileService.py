@@ -14,7 +14,7 @@ def get_all_transport_file(db: Session):
     Get all transport_files from the db.
     """
 
-    result = {"count":db.query(models.TransportFile).count(), "transport_files" : db.query(models.TransportFile).all()}
+    result =  db.query(models.TransportFile).all()
 
     return result
 
