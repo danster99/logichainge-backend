@@ -25,7 +25,7 @@ def not_found_exception(id):
         detail=f"Activity with id= {id} not found"
     )
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/")
 def create_json(json_data: schemas.JsonBase , db: Session = Depends(get_db), ):
     """
     populate database with info from json
@@ -37,4 +37,4 @@ def create_json(json_data: schemas.JsonBase , db: Session = Depends(get_db), ):
     #     print(e.orig)
     #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
 
-    return json
+    return Response(status_code=status.HTTP_201_CREATED)

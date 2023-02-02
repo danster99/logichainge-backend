@@ -212,5 +212,5 @@ def populate_with_data_from_json(
 					db.commit()
 					db.refresh(db_good)
 	
-	return transport_file
+	return True
 
