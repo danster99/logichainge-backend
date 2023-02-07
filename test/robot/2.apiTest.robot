@@ -25,21 +25,34 @@ Check for avalability on "/"
 	[Tags]	smoke
 	${response}=	GET On Session	${Session}	/	expected_status=200
 
-Try to upload json
+Try to upload jsons
 	${json}=	Get File	test/robot/json/1.json
 	${response}=	POST On Session	${Session}	/json/	data=${json}	expected_status=201
+	${json}=	Get File	test/robot/json/2.json
+	${response}=	POST On Session	${Session}	/json/	data=${json}	expected_status=201
 
-Check transport file has been added
+Check transport files have been added
 	${response}=	GET On Session	${Session}	/transport_files/	expected_status=200
 	${content}=	Set Variable	${response.json()}
 
 	${content_length}=	Get Length	${content}
-	Should Be Equal As Integers	${content_length}	1
+	Should Be Equal As Integers	${content_length}	2
 
-	${id}=	Get Value From Json	${content[0]}	$.id
+Check the files were given default pending state
+	${response}=	GET On Session	${Session}	/transport_files/get_by_status/pending	expected_status=200
+	${content}=	Set Variable	${response.json()}
+
+	${content_length}=	Get Length	${content}
+	Should Be Equal As Integers	${content_length}	2
+
+Check data for the first transport file
+	${response}=	GET On Session	${Session}	/transport_files/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+
+	${id}=	Get Value From Json	${content}	$.id
 	Should Be Equal As Integers	${id[0]}	1
 
-	${client_id}=	Get Value From Json	${content[0]}	$.client_id
+	${client_id}=	Get Value From Json	${content}	$.client_id
 	Should Be Equal As Integers	${client_id[0]}	1
 
 *** Keywords ***
