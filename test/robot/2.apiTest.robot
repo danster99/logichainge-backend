@@ -45,11 +45,133 @@ Check the files were given default pending state
 	${content_length}=	Get Length	${content}
 	Should Be Equal As Integers	${content_length}	2
 
+Check that clients have been crreated
+    ${response}=	GET On Session	${Session}	/clients	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${content_length}=	Get Length	${content}
+	Should Be Equal As Integers	${content_length}	2
+
+Check clients information
+    ${response}=	GET On Session	${Session}	/clients/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}	1
+	${client_identifier}=	Get Value From Json	${content}	$.client_identifier
+	Should Be Equal As Strings	${client_identifier[0]}	2
+	${response}=	GET On Session	${Session}	/clients/2	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}    2
+	${client_identifier}=	Get Value From Json	${content}	$.client_identifier
+	Should Be Equal As Strings	${client_identifier[0]}	123
+
+Try to update client
+    ${response}=	GET On Session	${Session}	/clients/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${content}=    Update Value To Json    ${content}    $.client_identifier    test2
+	@{name}=  Create list  client1    altNameClient1
+    ${content}=    Update Value To Json    ${content}    $.name  ${name}
+	${response}=	PUT On Session	${Session}	/clients/1	json=${content}    expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${client_identifier_new}=	Get Value From Json	${content}	$.client_identifier
+	Should Be Equal As Strings	${client_identifier_new[0]}	test2
+	${client_name_new}=	Get Value From Json	${content}	$.name
+	Should Be Equal As Strings	${client_name_new[0][0]}	client1
+	Should Be Equal As Strings	${client_name_new[0][1]}	altNameClient1
+
+Check contacts information
+    ${response}=	GET On Session	${Session}	/contacts/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}	1
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id[0]}	1
+
+Try to update contact
+    ${response}=	GET On Session	${Session}	/contacts/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${initials}=	Get Value From Json	${content}	$.initials
+	Should Be Equal As Strings	${initials[0]}	R. T. 2
+	${content}=    Update Value To Json    ${content}    $.initials    X.Y.
+	@{phone}=  Create list  +40-712-3345678    +31-012-2345672
+	${content}=    Update Value To Json    ${content}    $.phone    ${phone}
+	${response}=	PUT On Session	${Session}	/contacts/1	json=${content}    expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${initials_new}=	Get Value From Json	${content}	$.initials
+	Should Be Equal As Strings	${initials_new[0]}	X.Y.
+	${phone_new}=	Get Value From Json	${content}	$.phone
+	Should Be Equal As Strings	${phone_new[0][0]}	+40-712-3345678
+    Should Be Equal As Strings	${phone_new[0][1]}	+31-012-2345672
+
+Check departments information
+    ${response}=	GET On Session	${Session}	/departments/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}	1
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id[0]}	1
+	${response}=	GET On Session	${Session}	/departments/2	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}    2
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id[0]}	2
+
+Try to update department
+    ${response}=	GET On Session	${Session}	/departments/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+    ${content}=    Update Value To Json    ${content}    $.name  test123
+	${response}=	PUT On Session	${Session}	/departments/1	json=${content}    expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${client_id_new}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id_new[0]}	1
+	${name_new}=	Get Value From Json	${content}	$.name
+	Should Be Equal As Strings	${name_new[0]}	test123
+
+Check employees information
+    ${response}=	GET On Session	${Session}	/employees/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}	1
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id[0]}	1
+	${response}=	GET On Session	${Session}	/employees/2	expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}    2
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id[0]}	2
+
+Try to update employee
+    ${response}=	GET On Session	${Session}	/employees/1	expected_status=200
+	${content}=	Set Variable	${response.json()}
+    ${content}=    Update Value To Json    ${content}    $.name  test123
+	${response}=	PUT On Session	${Session}	/employees/1	json=${content}    expected_status=200
+	${content}=	Set Variable	${response.json()}
+	${client_id_new}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Strings	${client_id_new[0]}	1
+	${name_new}=	Get Value From Json	${content}	$.name
+	Should Be Equal As Strings	${name_new[0]}	test123
+
 Check data for the first transport file
 	${response}=	GET On Session	${Session}	/transport_files/1	expected_status=200
 	${content}=	Set Variable	${response.json()}
 
 	${id}=	Get Value From Json	${content}	$.id
+	Should Be Equal As Integers	${id[0]}	1
+
+	${client_id}=	Get Value From Json	${content}	$.client_id
+	Should Be Equal As Integers	${client_id[0]}	1
+
+Check activities for the first transport file
+    ${response}=	GET On Session	${Session}	/transport_files/1/activities	expected_status=200
+	${content}=	Set Variable	${response.json()}
+    
+	${content_length}=	Get Length	${content}
+	Should Be Equal As Integers    ${content_length}	2
+    Should Be Equal As Integers    ${content[0]["transport_file_id"]}    1
+	${first_activity}=    Set Variable    ${content[0]}
+	${id}=	Get Value From Json	${first_activity}	$.id
 	Should Be Equal As Integers	${id[0]}	1
 
 	${client_id}=	Get Value From Json	${content}	$.client_id
