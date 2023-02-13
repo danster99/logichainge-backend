@@ -41,12 +41,12 @@ def populate_with_data_from_json(
 	contact.update({
 		"client_id":db_client.id,\
 		"initials":json["contact"]["initials"],\
-    	"name":json["contact"]["name"],\
-    	"surname":json["contact"]["surname"],\
-        "surname_prefix":json["contact"]["surname_prefix"],\
-    	"phone":json["contact"]["phone"],\
-    	"mobile":json["contact"]["mobile"],\
-    	"email":json["contact"]["email"]      
+		"name":json["contact"]["name"],\
+		"surname":json["contact"]["surname"],\
+		"surname_prefix":json["contact"]["surname_prefix"],\
+		"phone":json["contact"]["phone"],\
+		"mobile":json["contact"]["mobile"],\
+		"email":json["contact"]["email"]      
 	})
  
 	db_contact = models.Contact(**contact)
@@ -76,18 +76,18 @@ def populate_with_data_from_json(
 	
 	transport_file.update({
 		"client_id":db_client.id, \
-      	"contact_id":db_contact.id, \
-        "department_id":db_department.id, \
-        "employee_id":db_employee.id, \
-    	"display_number":json["display_number"], \
-    	"tr_file_status":json["tr_file_status"], \
-    	"invoice_reference":json["invoice_reference"], \
-    	"file_type":json["file_type"], \
-        "equipment_type":json["equipment_type"], \
-    	"modality":json["modality"],\
-    	"service_level":json["service_level"],\
-    	"customs":json["customs"], \
-    	"attention_required":json["attention_required"],\
+		"contact_id":db_contact.id, \
+		"department_id":db_department.id, \
+		"employee_id":db_employee.id, \
+		"display_number":json["display_number"], \
+		"tr_file_status":json["tr_file_status"], \
+		"invoice_reference":json["invoice_reference"], \
+		"file_type":json["file_type"], \
+		"equipment_type":json["equipment_type"], \
+		"modality":json["modality"],\
+		"service_level":json["service_level"],\
+		"customs":json["customs"], \
+		"attention_required":json["attention_required"],\
 		"multi_trip":json["multi_trip"], \
 		"multi_activity":json["multi_activity"], \
 		"date_deviation":json["date_deviation"], \
@@ -95,7 +95,7 @@ def populate_with_data_from_json(
 		"late_booking":json["late_booking"], \
 		"cost_code":json["cost_code"], \
 		"reference":json["reference"]
-    })
+	})
  
 	db_transport_file = models.TransportFile(**transport_file)
 	db.add(db_transport_file)
@@ -109,14 +109,14 @@ def populate_with_data_from_json(
 		contact.update({
 			"client_id":None,\
 			"initials":a["contact"]["initials"],\
-    		"name":a["contact"]["name"],\
-    		"surname":a["contact"]["surname"],\
-        	"surname_prefix":a["contact"]["surname_prefix"],\
-    		"phone":a["contact"]["phone"],\
-    		"mobile":a["contact"]["mobile"],\
-    		"email":a["contact"]["email"]      
+			"name":a["contact"]["name"],\
+			"surname":a["contact"]["surname"],\
+			"surname_prefix":a["contact"]["surname_prefix"],\
+			"phone":a["contact"]["phone"],\
+			"mobile":a["contact"]["mobile"],\
+			"email":a["contact"]["email"]
 		})
- 
+
 		db_contact = models.Contact(**contact)
 		db.add(db_contact)
 		db.commit()
@@ -124,15 +124,15 @@ def populate_with_data_from_json(
 
 
 		address.update({
-    		"name":a["address"]["name"],\
-    		"street_1":a["address"]["street_1"],\
-        	"street_2":a["address"]["street_2"],\
-    		"street_3":a["address"]["street_3"],\
-    		"zipcode":a["address"]["zipcode"],\
-    		"city":a["address"]["city"],\
-            "country":a["address"]["country"],\
-            "latitude":a["address"]["latitude"],\
-            "longitude":a["address"]["longitude"]
+			"name":a["address"]["name"],\
+			"street_1":a["address"]["street_1"],\
+			"street_2":a["address"]["street_2"],\
+			"street_3":a["address"]["street_3"],\
+			"zipcode":a["address"]["zipcode"],\
+			"city":a["address"]["city"],\
+			"country":a["address"]["country"],\
+			"latitude":a["address"]["latitude"],\
+			"longitude":a["address"]["longitude"]
 		})
  
 		db_address = models.Address(**address)
@@ -151,8 +151,8 @@ def populate_with_data_from_json(
             "time_1":a["time_1"],\
 			"time_2":a["time_2"],\
 			"activity_reference":a["activity_reference"],\
-       		"instructions":a["instructions"],\
-        })
+			"instructions":a["instructions"],\
+		})
 
 		db_activity = models.Activity(**activity)
 		db.add(db_activity)
@@ -165,21 +165,21 @@ def populate_with_data_from_json(
 			if g["activity_sequence_id"] == activity["sequence_id"]:
 				good.update({
 					"activity_id":db_activity.id,\
-          			"unit_type":g["unit_type"],\
-              		"stackable":g["stackable"],\
-                  	"quantity":g["quantity"],\
-                    "description":g["description"],\
+					"unit_type":g["unit_type"],\
+					"stackable":g["stackable"],\
+					"quantity":g["quantity"],\
+					"description":g["description"],\
 					"loading_meters":g["loading_meters"],\
 					"net_weight":g["net_weight"],\
 					"gross_weight":g["gross_weight"],\
 					"dangerous_goods":g["dangerous_goods"],\
-             		"dg_class":g["dg_class"],\
-                   	"dg_product_group":g["dg_product_group"],\
+					"dg_class":g["dg_class"],\
+					"dg_product_group":g["dg_product_group"],\
 					"dg_un_code":g["dg_un_code"],\
 					"dg_technical_name":g["dg_technical_name"],\
 					"size":g["size"],\
 					"volume_cbm":g["volume_cbm"]
-			  	})
+				})
 				db_good = models.Goods(**good)
 				db.add(db_good)
 				db.commit()
