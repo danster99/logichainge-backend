@@ -64,7 +64,7 @@ def get_client(id: int, db: Session = Depends(get_db), ):
     return result
 
 @router.get("/{id}/contacts", response_model=List[schemas.ContactOut])
-def get_client(id: int, db: Session = Depends(get_db), ):
+def get_contacts_for_client(id: int, db: Session = Depends(get_db), ):
     """
     Get a list of contacts belonging to a client
     """
@@ -76,7 +76,7 @@ def get_client(id: int, db: Session = Depends(get_db), ):
     return db_client
 
 @router.get("/{id}/employees", response_model=List[schemas.ContactOut])
-def get_client(id: int, db: Session = Depends(get_db), ):
+def get_employees_for_client(id: int, db: Session = Depends(get_db), ):
     """
     Get a list of employees belonging to a client
     """
@@ -88,7 +88,7 @@ def get_client(id: int, db: Session = Depends(get_db), ):
     return db_client
 
 @router.get("/{id}/departments", response_model=List[schemas.ContactOut])
-def get_client(id: int, db: Session = Depends(get_db), ):
+def get_departments_for_client(id: int, db: Session = Depends(get_db), ):
     """
     Get a list of departments belonging to a client
     """

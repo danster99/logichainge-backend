@@ -5,7 +5,7 @@ from typing import Any
 
 
 class ClientService(
-	DefaultService[models.Client, schemas.ClientBase, schemas.ClientBase],
+	DefaultService[models.Client, schemas.ClientBase, schemas.ClientOut],
 ):
 	"""
 	Client service implementing Default_service and its CRUD methods

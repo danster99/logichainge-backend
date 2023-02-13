@@ -164,7 +164,6 @@ def mark_transport_file_as_reported(db: Session, id: int):
     """
     Mark the transport file as reported by user as incorrect or incomplete
     """
-    tr_file_query = {}
     stmt = (
         update(models.TransportFile)
         .where(models.TransportFile.id == id)

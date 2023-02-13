@@ -1,9 +1,10 @@
-from fastapi import Depends, APIRouter, Response, status, HTTPException
+from fastapi import Depends, APIRouter, Response, status, HTTPException, Header
 from sqlalchemy.orm import Session
 from app.database.database import get_db
 from typing import List, Any
 from app import schemas
 from app.services import transportFileService, activityService
+from app.services.tokenService import tokenService
 from sqlalchemy import exc
 from fastapi.encoders import jsonable_encoder
 import json
@@ -36,12 +37,23 @@ def no_activities_found_exception(id):
 
 
 @router.get("/")
-def get_all_transport_files(db: Session = Depends(get_db)):
-    """
-    Get all transport_files as LIST
-    """
-    all_files = transportFileService.get_all_transport_file(db)
-    return jsonable_encoder(all_files)
+def get_all_transport_files(db: Session = Depends(get_db), authorization: str = Header(None)):
+	"""
+	Get all transport_files as LIST
+	"""
+	# result = tokenService.validateHeader(authorization)
+	# if result == "header":
+	# 	return HTTPException(
+	# 			status_code=status.HTTP_400_BAD_REQUEST,
+	# 			detail=f"Check header structure"
+	# 		)
+	# elif result == "access":
+	# 	return HTTPException(
+	# 		status_code=status.HTTP_401_UNAUTHORIZED,
+	# 		detail=f"You need to be logged in to access this resource"
+	# 	)
+	all_files = transportFileService.get_all_transport_file(db)
+	return jsonable_encoder(all_files)
 
 
 @router.get("/get_by_status/{status}", response_model=List[schemas.TransportFileOut])

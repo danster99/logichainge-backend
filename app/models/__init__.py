@@ -6,3 +6,5 @@ from .client import Client
 from .contact import Contact
 from .department import Department
 from .employee import Employee
+from .user import User
+from .token import Token
