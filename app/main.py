@@ -8,17 +8,29 @@ from .routes import transportFileEndpoints, activityEndpoints, \
     jsonEndpoints, userEndpoints
 from fastapi.middleware.cors import CORSMiddleware
 from .services.userService import userService
-from .services.tokenService import tokenService
-from .models import User, Token
 from sqlalchemy.orm import Session
 from app.database.database import get_db
-from datetime import timedelta
-from .schemas.user import UserOut
+from datetime import datetime, timedelta
+from fastapi_jwt_auth import AuthJWT
+from fastapi_jwt_auth.exceptions import AuthJWTException
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+
+
+
 
 
 
 # Declaring main FAST API app
 app = FastAPI()
+
+class Settings(BaseModel):
+    authjwt_secret_key: str = "secret"
+
+# callback to get your configuration
+@AuthJWT.load_config
+def get_config():
+    return Settings()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl= "token")
 origins = [
@@ -35,6 +47,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.exception_handler(AuthJWTException)
+def authjwt_exception_handler(request: Request, exc: AuthJWTException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.message}
+    )
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -52,16 +70,8 @@ async def add_process_time_header(request: Request, call_next):
 async def root():
     return {"message": "Welcome to Logichainge"}
 
-@app.get("/auth")
-async def getToken(token: str = Depends(oauth2_scheme)):
-	return {"token": token}
-	
-@app.get("/users/me", response_model=UserOut)
-async def read_users_me(current_user: User = Depends(userService.get_current_active_user)):
-    return current_user
-
 @app.post("/token")
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends(), Authorize: AuthJWT = Depends()):
 	user = userService.authenticate_user(db, form_data.username, form_data.password)
 	if not user:
 		raise HTTPException(
@@ -69,12 +79,26 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 			detail="Incorrect username or password",
 			headers={"WWW-Authenticate": "Bearer"},
 		)
-	access_token_expires = timedelta(minutes=tokenService.ACCESS_TOKEN_EXPIRE_MINUTES)
-	access_token = tokenService.create_access_token(
-		data={"user": user.username}, expires_delta=access_token_expires
-	)
-	return {"access_token": access_token, "token_type": "bearer"}
+	# subject identifier for who this token is for example id or username from database
+	expires = timedelta(days=1)
+	access_token = Authorize.create_access_token(subject=user.username, expires_time=expires)
+	expires = timedelta(days=30)
+	refresh_token = Authorize.create_refresh_token(subject=user.username, expires_time=expires)
+	return {"access_token": access_token, "refresh_token": refresh_token}
 
+@app.post('/refresh')
+def refresh(Authorize: AuthJWT = Depends()):
+    """
+    The jwt_refresh_token_required() function insures a valid refresh
+    token is present in the request before running any code below that function.
+    we can use the get_jwt_subject() function to get the subject of the refresh
+    token, and use the create_access_token() function again to make a new access token
+    """
+    Authorize.jwt_refresh_token_required()
+
+    current_user = Authorize.get_jwt_subject()
+    new_access_token = Authorize.create_access_token(subject=current_user)
+    return {"access_token": new_access_token}
 
 """ Declaring all routes as part of the main FAST API app """
 

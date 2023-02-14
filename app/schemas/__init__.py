@@ -10,5 +10,4 @@ from .attachment import AttachmentBase, AttachmentOut
 from .transportFile import TransportFileBase, TransportFileOut
 from .goods import GoodsBase, GoodsOut
 from .json import JsonBase
-from .user import UserBase, UserOut
-from .token import TokenBase, TokenOut
+from .user import UserBase, UserOut, UserIn

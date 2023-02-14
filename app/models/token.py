@@ -1,7 +1,6 @@
 from app.database.database import Base
-from sqlalchemy import Column, Integer, String, TIMESTAMP, text, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, TIMESTAMP, text, ForeignKey
 from sqlalchemy.orm import relationship, backref
-import uuid
 
 class Token(Base):
 	__tablename__ = "token"

@@ -4,10 +4,8 @@ from app.database.database import get_db
 from typing import List, Any
 from app import schemas
 from app.services import transportFileService, activityService
-from app.services.tokenService import tokenService
 from sqlalchemy import exc
 from fastapi.encoders import jsonable_encoder
-import json
 
 # Defining the router
 router = APIRouter(
@@ -37,21 +35,7 @@ def no_activities_found_exception(id):
 
 
 @router.get("/")
-def get_all_transport_files(db: Session = Depends(get_db), authorization: str = Header(None)):
-	"""
-	Get all transport_files as LIST
-	"""
-	# result = tokenService.validateHeader(authorization)
-	# if result == "header":
-	# 	return HTTPException(
-	# 			status_code=status.HTTP_400_BAD_REQUEST,
-	# 			detail=f"Check header structure"
-	# 		)
-	# elif result == "access":
-	# 	return HTTPException(
-	# 		status_code=status.HTTP_401_UNAUTHORIZED,
-	# 		detail=f"You need to be logged in to access this resource"
-	# 	)
+def get_all_transport_files(db: Session = Depends(get_db)):
 	all_files = transportFileService.get_all_transport_file(db)
 	return jsonable_encoder(all_files)
 
@@ -90,19 +74,6 @@ def get_transport_file(id: int, db: Session = Depends(get_db), ):
 
     return activities
 
-
-# @router.get("/display/{id}", response_model=schemas.TransportFileOut)
-# def get_transport_file_display(id: int, db: Session = Depends(get_db), ):
-#     """
-#     Get a transport_file by its ID and return a TransportFileOutDisplay schema
-#     """
-#     db_transport_file = transportFileService.get_transport_file(db, id)
-#     if not db_transport_file:
-#         raise not_found_exception(id)
-
-#     return db_transport_file
-
-
 @router.post("/", response_model=schemas.TransportFileOut, status_code=status.HTTP_201_CREATED)
 def create_transport_file(transport_file: schemas.TransportFileBase, db: Session = Depends(get_db), ):
     """
@@ -115,21 +86,6 @@ def create_transport_file(transport_file: schemas.TransportFileBase, db: Session
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
 
     return db_transport_file
-
-
-# @router.post("/full", response_model=schemas.TransportFileOut, status_code=status.HTTP_201_CREATED)
-# def create_transport_file_full(transport_file_in: schemas.TransportFileIn, db: Session = Depends(get_db), ):
-#     """
-#     Create transport_file with all nested objects
-#     """
-#     try:
-#         db_transport_file = transportFileService.save_transport_file_full(db, transport_file_in)
-#     except exc.IntegrityError as e:
-#         print(e.orig)
-#         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
-
-#     return db_transport_file
-
 
 @router.put("/{id}", response_model=schemas.TransportFileOut)
 def update_transport_file(*,

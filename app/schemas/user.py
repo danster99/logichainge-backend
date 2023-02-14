@@ -25,4 +25,4 @@ class UserOut(UserBase):
 	created_at: datetime
 	
 class UserIn(UserBase):
-	hashed_pass: str
+	password: str
