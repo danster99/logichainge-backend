@@ -2,7 +2,7 @@ from app.services.defaultService import DefaultService
 from app import models, schemas
 
 
-class EmployeeService(
+class employeeService(
 	DefaultService[models.Employee, schemas.EmployeeBase, schemas.EmployeeBase],
 ):
 	"""
@@ -12,4 +12,4 @@ class EmployeeService(
 		return "returning from child employee service"
 
 
-employeeService = EmployeeService(models.Employee)
+employeeService = employeeService(models.Employee)

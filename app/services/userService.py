@@ -70,4 +70,5 @@ class userService(
 		db.refresh(db_user)
 		return db_user
 
+userService = userService(models.User)
 
