@@ -43,7 +43,7 @@ py==1.11.0
 pyasn1==0.4.8
 pycparser==2.21
 pydantic==1.10.2
-PyGreSQL==5.2.4
+PyGreSQL==5.2.4 
 PyJWT==1.7.1
 PyMySQL==1.0.2
 pyparsing==3.0.9
