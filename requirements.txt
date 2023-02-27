@@ -38,6 +38,7 @@ pathspec==0.11.0
 platformdirs==2.6.2
 pluggy==1.0.0
 ply==3.11
+psycopg2==2.9.5
 py==1.11.0
 pyasn1==0.4.8
 pycparser==2.21
@@ -46,7 +47,7 @@ PyJWT==1.7.1
 PyMySQL==1.0.2
 pyparsing==3.0.9
 pyrsistent==0.19.3
-PySocks==1.7.1 
+PySocks==1.7.1
 pytest==7.2.0
 python-dotenv==0.21.0
 python-jose==3.3.0
