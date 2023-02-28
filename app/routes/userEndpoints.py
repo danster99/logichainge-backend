@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app import schemas
 from app.models import User
-from app.services.userService import userService
+from app.services import userService
 from fastapi_jwt_auth import AuthJWT
 from typing import List, Any
 

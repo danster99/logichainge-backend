@@ -7,7 +7,7 @@ from .routes import transportFileEndpoints, activityEndpoints, \
     departmentEndpoints, employeeEndpoints, \
     jsonEndpoints, userEndpoints
 from fastapi.middleware.cors import CORSMiddleware
-from .services.userService import userService
+from .services import userService
 from sqlalchemy.orm import Session
 from app.database.database import get_db
 from datetime import datetime, timedelta
