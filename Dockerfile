@@ -12,8 +12,8 @@ RUN pip install --upgrade pip && pip install -r /app/requirements.txt \
 
 COPY . /app/
 
-RUN ls
-RUN git pull
+RUN ls /app/services
+RUN git pull origin master
 #CMD alembic upgrade head
 #CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8081"]
 
