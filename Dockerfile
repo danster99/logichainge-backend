@@ -1,7 +1,5 @@
 FROM python:3.9-slim-buster
 
-RUN git pull
-
 WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
